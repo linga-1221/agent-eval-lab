@@ -1,0 +1,18 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "agent-eval-lab"
+version = "0.1.0"
+description = "Multi-agent system for automated PyTest generation with eval harness"
+requires-python = ">=3.11"
+authors = [{name = "Kuchivaripalli Nagalinga"}]
+
+[tool.setuptools.packages.find]
+include = ["agent_eval_lab*"]
+exclude = ["tests*", "venv*", "examples*"]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]

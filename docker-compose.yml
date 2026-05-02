@@ -1,0 +1,7 @@
+services:
+  agent-eval-lab:
+    build: .
+    env_file: .env
+    volumes:
+      - ./runs:/app/runs
+    command: eval
