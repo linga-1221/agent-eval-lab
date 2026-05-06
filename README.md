@@ -151,13 +151,13 @@ Each run logs to runs/agent_eval.log and detailed JSON to runs/eval_results.json
 
 ## Why I built this
 
-I am a final-year CS student interested in the production side of LLM systems — eval infrastructure, failure-mode analysis, agentic workflows. Most learning resources on agents stop at "look, two LLMs can talk to each other." This project goes one step further: how do you measure if they are actually doing useful work?
+I am a CS student interested in the production side of LLM systems — eval infrastructure, failure-mode analysis, agentic workflows. Most learning resources on agents stop at "look, two LLMs can talk to each other." This project goes one step further: how do you measure if they are actually doing useful work?
 
 ---
 
 ## Author
 
 **Kuchivaripalli Nagalinga**
-Final-year B.Tech CSE — Python + AI Engineering
+B.Tech CSE — Python + AI Engineering
 GitHub: https://github.com/linga-1221
 LinkedIn: https://www.linkedin.com/in/nagalinga-k
