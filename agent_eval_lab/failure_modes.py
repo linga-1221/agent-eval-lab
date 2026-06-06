@@ -1,4 +1,7 @@
-﻿"""Detect common LLM failure modes in agent output."""
+"""Detect common LLM failure modes in agent output."""
+
+import ast
+
 
 def detect_failure_modes(test_code: str, agent_result: dict) -> list[str]:
     """Return a list of failure modes detected in the output."""
@@ -12,7 +15,9 @@ def detect_failure_modes(test_code: str, agent_result: dict) -> list[str]:
         if "from nonexistent" in test_code or "import madeupmodule" in test_code:
             failures.append("hallucinated_import")
 
-    if test_code.count("def ") > 0 and "def " in test_code and ":" not in test_code.split("def ")[1][:200]:
+    try:
+        ast.parse(test_code)
+    except SyntaxError:
         failures.append("malformed_syntax")
 
     if "def test_" in test_code and "assert" not in test_code and "raises" not in test_code:

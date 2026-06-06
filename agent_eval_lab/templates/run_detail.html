@@ -1,0 +1,83 @@
+<!doctype html>
+<html>
+<head>
+  <title>Agent Eval Lab - Run {{ filename }}</title>
+  <style>
+    body { font-family: sans-serif; margin: 2rem; }
+    table { border-collapse: collapse; width: 100%; margin-bottom: 1rem; }
+    th, td { border: 1px solid #ddd; padding: 0.5rem; text-align: left; }
+    th { background: #f4f4f4; }
+    .summary { background: #f9f9f9; padding: 1rem; border-radius: 4px; margin-bottom: 1rem; }
+    .summary-item { margin: 0.5rem 0; }
+    pre { background: #f4f4f4; padding: 1rem; overflow-x: auto; }
+    .fail { color: #c00; }
+    .pass { color: #090; }
+  </style>
+</head>
+<body>
+  <h1>Evaluation Run: {{ filename }}</h1>
+  <div class="nav">
+    <a href="/">← Back to runs</a>
+  </div>
+  <div class="summary">
+    <h2>Summary</h2>
+    <div class="summary-item"><strong>Average AST score:</strong> {{ '%.2f'|format(summary.average_score) }}/100</div>
+    <div class="summary-item"><strong>Agent pass rate:</strong> {{ summary.agent_pass_rate_percent }}%</div>
+    <div class="summary-item"><strong>Execution pass rate:</strong> {{ summary.execution_pass_rate_percent }}%</div>
+    {% if summary.average_coverage_percent is not none %}
+    <div class="summary-item"><strong>Average coverage:</strong> {{ summary.average_coverage_percent }}%</div>
+    {% endif %}
+    <div class="summary-item"><strong>Total items:</strong> {{ summary.total_items }}</div>
+  </div>
+
+  <h2>Detailed Results</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Function</th>
+        <th>AST Score</th>
+        <th>Tests</th>
+        <th>Agent</th>
+        <th>Exec OK</th>
+        <th>Coverage</th>
+        <th>Judge Score</th>
+        <th>Failures</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for r in summary.results %}
+      <tr>
+        <td>{{ r.name }}</td>
+        <td>{{ r.overall_score }}/100</td>
+        <td>{{ r.scores.test_count }}</td>
+        <td class="{{ 'pass' if r.agent_passed else 'fail' }}">{{ '✓' if r.agent_passed else '✗' }}</td>
+        <td class="{{ 'pass' if r.execution and r.execution.success else 'fail' }}">
+          {{ '✓' if r.execution and r.execution.success else ('✗' if r.execution else '-') }}
+        </td>
+        <td>
+          {% if r.execution and r.execution.coverage is not none %}
+            {{ '%.1f'|format(r.execution.coverage) }}%
+          {% else %}
+            -
+          {% endif %}
+        </td>
+        <td>
+          {% if r.judge_feedback %}
+            {{ r.judge_feedback.semantic_score }}/10
+          {% else %}
+            -
+          {% endif %}
+        </td>
+        <td>
+          {% if r.failure_modes %}
+            {{ r.failure_modes|join(', ') }}
+          {% else %}
+            -
+          {% endif %}
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</body>
+</html>

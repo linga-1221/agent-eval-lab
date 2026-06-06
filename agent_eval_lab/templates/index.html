@@ -1,0 +1,51 @@
+<!doctype html>
+<html>
+<head>
+  <title>Agent Eval Lab - Runs</title>
+  <style>
+    body { font-family: sans-serif; margin: 2rem; }
+    table { border-collapse: collapse; width: 100%; }
+    th, td { border: 1px solid #ddd; padding: 0.5rem; text-align: left; }
+    th { background: #f4f4f4; }
+    .nav { margin-bottom: 1rem; }
+    a { text-decoration: none; color: #0066cc; }
+    a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <h1>Agent Eval Lab - Evaluation Runs</h1>
+  <div class="nav">
+    <a href="/">Refresh</a>
+  </div>
+  {% if runs %}
+  <table>
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Filename</th>
+        <th>Avg Score</th>
+        <th>Agent Pass %</th>
+        <th>Exec Pass %</th>
+        <th>Items</th>
+        <th>Coverage %</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for run in runs %}
+      <tr>
+        <td>{{ run.timestamp_str }}</td>
+        <td><a href="/run/{{ run.filename }}">{{ run.filename }}</a></td>
+        <td>{{ run.average_score }}</td>
+        <td>{{ run.agent_pass_rate }}%</td>
+        <td>{{ run.execution_pass_rate }}%</td>
+        <td>{{ run.total_items }}</td>
+        <td>{{ '%.1f'|format(run.average_coverage) if run.average_coverage is not none else '-' }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <p>No evaluation runs found in <code>runs/</code> directory.</p>
+  {% endif %}
+</body>
+</html>
